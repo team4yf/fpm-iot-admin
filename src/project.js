@@ -34,10 +34,39 @@ function Project(){
         .finally(() => {
             setLoading(false);
         });
-        // if (rsp.status == 200){
-        //     setList()
-        // }
     },[]);
+
+    function create (){
+        alert('create')
+    }
+
+    function refresh (){
+        fetch("/biz/common/findAndCount?table=fim_project")
+        .then(response => {
+            if (response.ok) return response.json();
+            
+            throw response;
+        })
+        .then(json => {
+            console.log(json)
+            if (json.errno === 0){
+                setList(json.data.rows)
+                return
+            }
+            throw json.message
+        })
+        .catch(err => {
+            console.error(err);
+            setError(err);
+        })
+        .finally(() => {
+            setLoading(false);
+        });
+    }
+
+    function search() {
+        alert('search')
+    }
 
     return (
         <>
@@ -59,7 +88,7 @@ function Project(){
                 aria-describedby="basic-addon2"
                 />
                 <InputGroup.Append>
-                <Button size="sm" variant="outline-secondary"><FontAwesomeIcon icon={faSearch} /></Button>
+                <Button size="sm" variant="outline-secondary" onClick={ search }><FontAwesomeIcon icon={faSearch} /></Button>
                 </InputGroup.Append>
                 </InputGroup>
             </Form>
@@ -68,8 +97,8 @@ function Project(){
             <Row>
             <Col md={8}>
             <ButtonGroup size="">
-                <Button variant="light"><FontAwesomeIcon icon={faPlus} /></Button>
-                <Button variant="light"><FontAwesomeIcon icon={faSync} /></Button>
+                <Button variant="light" onClick={ create }><FontAwesomeIcon icon={faPlus} /></Button>
+                <Button variant="light" onClick={ refresh }><FontAwesomeIcon icon={faSync} /></Button>
             </ButtonGroup>
             </Col>  
             <Col md={{ span: 4 }}>
@@ -98,9 +127,12 @@ function Project(){
                 </tr>
             </thead>
             <tbody>
+                {
+                loading?(
                 <tr>
                     <td colSpan="8"><center><Spinner animation="grow" variant="info" /></center></td>
-                </tr>
+                </tr>):undefined
+                }
                 {
                     list.map((item) => {
                         return  (
