@@ -5,6 +5,7 @@ import { faSearch, faPlus, faSync } from '@fortawesome/free-solid-svg-icons'
 import { 
     Row, Col,
     InputGroup, FormControl, Form, ButtonGroup,
+    Spinner,
     Pagination, Breadcrumb, Button, Container, Table } from 'react-bootstrap';
 
 function Project(){
@@ -97,6 +98,9 @@ function Project(){
                 </tr>
             </thead>
             <tbody>
+                <tr>
+                    <td colSpan="8"><center><Spinner animation="grow" variant="info" /></center></td>
+                </tr>
                 {
                     list.map((item) => {
                         return  (
@@ -114,6 +118,7 @@ function Project(){
                         </tr>)
                     })
                 }
+               
                
             </tbody>
             
